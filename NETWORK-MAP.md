@@ -3,18 +3,29 @@
 ## LAN Addressing
 
 - **Subnet**: 172.16.16.0/24
-- **Gateway**: 172.16.16.1 (Sophos XG Firewall)
+- **Gateway**: 172.16.16.1 (Sophos XG Firewall LAN) / **172.16.16.16** (Sophos mgmt — this is the actual gateway used by all CTs/VMs)
 - **DNS**: 172.16.16.1 (Sophos internal DNS)
 
 | Host | IP | Role |
 |---|---|---|
-| Sophos XG | 172.16.16.1 (gateway), 172.16.16.16 (mgmt) | Firewall / Router |
+| Sophos XG | 172.16.16.1 (LAN), 172.16.16.16 (mgmt/gateway) | Firewall / Router — CTs use .16 as gw |
 | pve | 172.16.16.20 | Proxmox primary |
 | pve2 | 172.16.16.21 | Proxmox services |
 | pve3 | 172.16.16.22 | Proxmox hosting |
-| VM100 | 172.16.16.19 | AI server |
+| VM100 | 172.16.16.100 | AI server (corrected from .19) |
 | VM200 | 172.16.16.200 | Windows dev |
-| CT101–CT201 | 172.16.16.101–.201 | Containers (see Infrastructure Map) |
+| CT101 | 172.16.16.101 | cPanel/WHM hosting (pve3) |
+| CT103 | 172.16.16.103 | OnlineRadio App (pve2) |
+| CT105 | 172.16.16.105 | ClaApp (pve) |
+| CT107 | 172.16.16.107 | OnlineRadio API Gateway (pve2) |
+| CT109 | 172.16.16.109 | AzuraCast streaming (pve2) |
+| CT111 | 172.16.16.111 | Grafana + Prometheus (pve2) |
+| CT113 | 172.16.16.113 | WhatsApp Chatbot (pve) |
+| CT115 | 172.16.16.115 | Proxmox Backup Server (pve) |
+| CT117 | 172.16.16.117 | Docker Host (pve) |
+| CT119 | 172.16.16.119 | CyberPanel — CORRUPT (pve3) |
+| **CT121** | **172.16.16.121** | **Billing System — bill.i.ng (pve) — discovered 2026-03-03** |
+| CT201 | 172.16.16.201 | Mailcow email server (pve2) |
 
 ---
 

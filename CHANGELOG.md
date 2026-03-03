@@ -7,6 +7,47 @@ Types: `feat` (new resource), `fix` (bugfix), `destroy` (removed resource), `con
 
 ---
 
+## 2026-03
+
+### Phase 1: Proxmox Import + Inventory Correction
+
+**[2026-03-03] feat: Phase 1 - Complete Proxmox Import** — by @thelightville
+
+- Created Proxmox API token: `opentofu@pam!tofu-token`
+- Imported all 14 Proxmox resources into tofu local state
+- tofu plan shows **0 replacements, 0 destroys** after inventory correction
+- Plan: `0 to add, 14 to change (in-place), 0 to destroy`
+
+**[2026-03-03] fix: Corrected node assignments** — by @thelightville
+
+Live `pvesh` audit revealed 4 wrong node assignments in original docs:
+- CT103 OnlineRadio App: was documented as `pve`, actually on **pve2**
+- CT107 API Gateway: was documented as `pve`, actually on **pve2**
+- CT109 AzuraCast: was documented as `pve`, actually on **pve2**
+- CT115 PBS: was documented as `pve2`, actually on **pve**
+
+**[2026-03-03] fix: Corrected infrastructure specs** — by @thelightville
+
+Live pvesh audit corrected several wrong values in documentation:
+- CT109 disk: 100GB → 670GB (81GB media + OS)
+- CT117 disk: 200GB → 800GB; datastore: nvme-storage → ssd-storage; RAM: 32GB → 16GB
+- CT201 disk: 100GB → 200GB; datastore: local → pve2-nvme; RAM: 8GB → 6GB
+- CT115 disk: 50GB → 32GB; datastore: local → pbs-ssd; has 2 NFS mounts
+- VM100: corrected to 16 vCPU, 32GB RAM, 250GB disk; GPU PCI ID confirmed: 0000:03:00
+- VM200: corrected to 8 vCPU, 32GB RAM, 150GB (ssd-storage), OVMF BIOS, 2 NICs
+- Gateway across all CTs: was 172.16.16.1, actually 172.16.16.16
+
+**[2026-03-03] feat: Discovered CT121 billing system** — by @thelightville
+
+Previously undocumented container found via pvesh audit:
+- CT121 | IP: 172.16.16.121 | Node: pve | Hostname: bill.i.ng
+- 4 cores, 4GB RAM, 50GB nvme-storage | Ubuntu | unprivileged | nesting=1
+- Service: Billing system (WHMCS/FOSSBilling/custom — TBD)
+- Added to tofu IaC with `prevent_destroy = true`
+- Added to all documentation maps
+
+---
+
 ## 2025-07
 
 ### Phase 0: IaC Foundation
